@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy PHP app to Azure Web App - bootstrap
+name: Build and deploy Laravel app to Azure Web App - bootstrap
 
 on:
   push:
@@ -20,23 +17,24 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
+          extensions: mbstring, xml, bcmath, curl, zip, gd
 
-      - name: Check if composer.json exists
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: 'composer.json'
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
 
-      - name: Run composer install if composer.json exists
-        run: composer update && composer install --prefer-dist --no-progress
+      - name: Generate app key
+        run: php artisan key:generate
+      
+      - name: Run migrations (Optional - only if needed on build step)
+        run: php artisan migrate --force
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip . -x "vendor/*" -x "node_modules/*" -x "storage/*" -x ".git/*"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: php-app
+          name: laravel-app
           path: release.zip
 
   deploy:
@@ -44,31 +42,28 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: php-app
+          name: laravel-app
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_77939A5E85BE46A0AA47411A38B21C07 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_622F9FB9D9314CD0937EF9B066FADAA0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A7AEAAB0993E424681D7FC7C8440CF83 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'bootstrap'
           slot-name: 'Production'
           package: .
-          

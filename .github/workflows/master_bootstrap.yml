@@ -23,7 +23,9 @@ jobs:
         run: composer install --no-dev --prefer-dist --optimize-autoloader
 
       - name: Generate app key
-        run: php artisan key:generate
+        run:
+          cp .env.ci .env
+          php artisan key:generate
       
       - name: Run migrations (Optional - only if needed on build step)
         run: php artisan migrate --force

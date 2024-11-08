@@ -26,7 +26,14 @@ jobs:
         run: |
           cp .env.ci .env
           php artisan key:generate
-      
+
+      - name: Wait for MySQL to be ready
+        run: |
+          apt-get update && apt-get install -y netcat
+          while ! nc -z db 3306; do
+            sleep 1
+          done
+
       - name: Run migrations (Optional - only if needed on build step)
         run: php artisan migrate --force
 

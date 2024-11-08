@@ -21,9 +21,9 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --no-dev --prefer-dist --optimize-autoloader
-
+      
       - name: Generate app key
-        run:
+        run: |
           cp .env.ci .env
           php artisan key:generate
       

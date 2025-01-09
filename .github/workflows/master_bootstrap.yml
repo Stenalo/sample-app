@@ -73,7 +73,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: php-app
+          name: sample-app
           path: .
 
   deploy:
@@ -90,6 +90,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: php-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
 
       - name: 'Login to Azure'
         uses: azure/login@v2

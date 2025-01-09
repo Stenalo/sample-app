@@ -54,6 +54,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: php-app
+        try:
+          # Proceed with download
+        catch:
+          # Handle download failures here (e.g., notify maintainers)
+          run: |
+            echo "Failed to download artifact!"
+            exit 1
 
       - name: Unzip artifact for deployment
         run: unzip release.zip

@@ -58,7 +58,7 @@ jobs:
           # Proceed with download
         catch:
           # Handle download failures here (e.g., notify maintainers)
-          run: |
+        run: |
             echo "Failed to download artifact!"
             exit 1
 

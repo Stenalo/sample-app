@@ -51,6 +51,7 @@ return [
             'database' => env('AZURE_MYSQL_DBNAME', 'forge'),
             'username' => env('AZURE_MYSQL_USERNAME', 'forge'),
             'password' => env('AZURE_MYSQL_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',

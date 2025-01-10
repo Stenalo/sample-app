@@ -232,4 +232,9 @@ return [
 
     ],
 
+    'middleware' => [
+    // Other middleware
+
+    \Fruitcake\Cors\HandleCors::class,
+    ],
 ];

@@ -56,6 +56,9 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
+      - name: Fix code style issues
+        run: composer phpcbf
+
       - name: Lint code
         run: composer lint
 

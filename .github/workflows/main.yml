@@ -57,7 +57,7 @@ jobs:
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
       - name: Fix code style issues
-        run: composer phpcbf
+        run: vendor/bin/phpcbf --standard=PSR12 app/
 
       - name: Lint code
         run: composer lint

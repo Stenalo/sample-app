@@ -37,7 +37,7 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    
 
     steps:
       - uses: actions/checkout@v4
@@ -59,9 +59,11 @@ jobs:
 
       - name: Fix code style issues
         run: vendor/bin/phpcbf --standard=PSR12 app/
+        continue-on-error: true
 
       - name: Lint code
         run: composer lint
+        continue-on-error: true
 
   build:
     runs-on: ubuntu-latest

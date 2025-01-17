@@ -1,0 +1,1 @@
+k6 run ./stress-test.js & k6 run ./load-test.js & k6 run ./spike-test.js

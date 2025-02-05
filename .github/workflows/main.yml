@@ -154,3 +154,13 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
 
+      - name: Ensure storage directories exist
+        run: |
+          mkdir -p storage/logs
+          mkdir -p storage/framework/cache
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/views
+    
+      - name: Run database migrations
+        run: |
+          az webapp ssh --name ${{ secrets.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items --command "php artisan migrate --force"

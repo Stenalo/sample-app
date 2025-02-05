@@ -162,7 +162,7 @@ jobs:
           mkdir -p storage/framework/sessions
           mkdir -p storage/framework/views
     
-      - name: Run database migrations
-        run: |
-          az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items --settings RUN_MIGRATIONS=true
-          az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items
+    #  - name: Run database migrations
+     #   run: |
+      #    az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items --settings RUN_MIGRATIONS=true
+       #   az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items

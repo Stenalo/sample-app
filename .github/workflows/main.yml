@@ -164,4 +164,5 @@ jobs:
     
       - name: Run database migrations
         run: |
-          az webapp ssh --name ${{ secrets.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items --command "php artisan migrate --force"
+          az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items --settings RUN_MIGRATIONS=true
+          az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items

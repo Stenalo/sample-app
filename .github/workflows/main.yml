@@ -125,6 +125,7 @@ jobs:
     needs: build
     environment:
       name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
       
     steps:
       - name: Download artifact from build job
@@ -133,14 +134,11 @@ jobs:
           name: sample-app
 
       - name: Create .env file
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envs: |
-            DB_HOST=${{ secrets.DB_HOST }}
-            DB_USERNAME=${{ secrets.DB_USERNAME }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            DB_DATABASE=${{ secrets.DB_DATABASE }}
-          file_name: .env
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
 
       # Step 3: Optional - Display directory structure for debug purposes
       - name: List files

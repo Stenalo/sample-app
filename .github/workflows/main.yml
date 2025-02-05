@@ -144,7 +144,8 @@ jobs:
 
       - name: Azure CLI Login
         run: |
-          az login --service-principal -u "966557a0-38ed-4271-bc63-e9181ec8ba15" -p "Dtc8Q~6iulSuBJnxLVCHDCGpSh9oAITHNZCUVc3B" --tenant "901cb4ca-b862-4029-9306-e5cd0f6d9f86"
+          az login --service-principal -u "${{ secrets.AZURE_CLIENT_ID }}" -p "${{ secrets.AZURE_CLIENT_SECRET }}" --tenant "${{ secrets.AZURE_TENANT_ID }}"
+        
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3

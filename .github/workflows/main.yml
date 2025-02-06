@@ -158,9 +158,12 @@ jobs:
         run: |
             az login --service-principal -u "${{ secrets.AZURE_CLIENT_ID }}" -p "${{ secrets.AZURE_CLIENT_SECRET }}" --tenant "${{ secrets.AZURE_TENANT_ID }}"
       
+      - name: List all resource groups
+        run: |
+            az group list --output table
       - name: Set Azure Web App settings
         run: |
-          az webapp config appsettings set --resource-group t-clo-901-prs-3-items --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings \
+          az webapp config appsettings set --resource-group "t-clo-901-prs-3-items" --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings \
             AZURE_MYSQL_DBNAME="${{ secrets.DB_DATABASE }}" \
             AZURE_MYSQL_HOST="${{ secrets.DB_HOST }}" \
             AZURE_MYSQL_PASSWORD="${{ secrets.DB_PASSWORD }}" \

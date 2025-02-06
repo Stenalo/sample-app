@@ -154,6 +154,10 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
 
+      - name: Azure CLI Login
+        run: |
+            az login --service-principal -u "${{ secrets.AZURE_CLIENT_ID }}" -p "${{ secrets.AZURE_CLIENT_SECRET }}" --tenant "${{ secrets.AZURE_TENANT_ID }}"
+      
       - name: Set Azure Web App settings
         run: |
           az webapp config appsettings set --resource-group t-clo-901-prs-3-items --name ${{ secrets.AZURE_WEBAPP_NAME }} --settings \
@@ -163,13 +167,6 @@ jobs:
             AZURE_MYSQL_PORT="${{ secrets.DB_PORT }}" \
             AZURE_MYSQL_USERNAME="${{ secrets.DB_USERNAME }}" \
             WEBSITE_RUN_FROM_PACKAGE="1"
-
-      - name: Ensure storage directories exist
-        run: |
-          mkdir -p storage/logs
-          mkdir -p storage/framework/cache
-          mkdir -p storage/framework/sessions
-          mkdir -p storage/framework/views
     
     #  - name: Run database migrations
      #   run: |

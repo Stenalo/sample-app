@@ -170,7 +170,7 @@ jobs:
             AZURE_MYSQL_PORT="${{ secrets.DB_PORT }}" \
             AZURE_MYSQL_USERNAME="${{ secrets.DB_USERNAME }}" \
             WEBSITE_RUN_FROM_PACKAGE="1"
-    
+
     #  - name: Run database migrations
      #   run: |
       #    az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group t-clo-901-prs-3-items --settings RUN_MIGRATIONS=true
